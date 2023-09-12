@@ -25,7 +25,7 @@ Running the batch file will run/open discord, and then change the values of both
 	- You can edit the volumes you want for discord in the batch file using a file editor (notepad.exe, notepad++.exe, vscode, etc)
 	- **You will need to edit this file and add your PATH to discord.exe and update.exe (for discord)**
 	- **Both PATHs can be found in your AppData/Roaming**
-	- If you would like to add this batch file to your taskbar, on Windows 11 you need to make the .bat a .exe pin to taskbar and back to a .bat. You can change the icon of the pinned batch file to be a discord icon.
+	- If you would like to add this batch file to your taskbar, on Windows 11 you need to save the .bat as a seperate .exe, pin the .exe to taskbar, and then change the pinned shortcut on the taskbar properties and target to the .bat file. You can change the icon of the pinned shortcut to be a discord icon.
 
 2. "set_volume_appname.cpp" for *"advanced"* users
     - This is the code for the .exe file you can use this to fix any errors you might have or change certain aspects. Go wild.
@@ -43,5 +43,5 @@ Running the batch file will run/open discord, and then change the values of both
 	
 ## **Assumptions**
 
-1. This was written for Windows 11, didn't test it for Windows 10, not going to either
+1. This was written for Windows 11, ran once on Windows 10 and it worked, it seems that on Windows 10 the percent you set is not absolute it will reference the master volume (this is different for Windows 11). Example: notification volume is set to .10 but your master volume is 50%, discord notifications will be at 5%. (only feel like saying because Windows 11 has a master volume but application volume is absolute.)
 2. The biggest assumption is that the PID for the notifications is higher than the PID for noraml voice. I have no way of discerning, but after thousands of tests (one computer opening discord ~5 times) it seems to follow this. If discord ever updates this assumption I'll look into it.
