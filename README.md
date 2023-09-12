@@ -1,4 +1,4 @@
-# DISCORD_NOTIFICATION_SET
+# DISCORD_SET_NOTIFICATION_VOLUME
 
 ## **What does this batch file does**
 
