@@ -1,6 +1,6 @@
 # DISCORD_NOTIFICATION_SET
 
-## **What does this batch file does** (MANIFESTO)
+## **What does this batch file does**
 
 ### *MANIFESTO* (feel free to skip)
  
@@ -14,7 +14,7 @@ Another way is to set the Volume mixer in Windows to the desired volume. Oh wow 
 
 Now comes to the crux of my issue, after updating to Windows 11, Volume Mixer is... bad. It used to show the bar changing on what is making sound, so a simple test of muting my mic would tell me which discord in volume mixer is the notification sounds, but they removed that. Its so bad that I immediately downloaded EarTrumpet, which is better and I still use it, but after a certain user complained about a million chrome tabs appearing(fair), they concatinated all processes (it seems, I could be extremely dumb) so theres only ever one Discord.exe that shows.
 
-### What it do
+### What it does
 
 Running the batch file will run/open discord, and then change the values of both volumes on the as they appear in the Windows 10 volume mixer. The volumes can be changed see details below. You will need the batch file and the .exe file, the .cpp is optional.
 
