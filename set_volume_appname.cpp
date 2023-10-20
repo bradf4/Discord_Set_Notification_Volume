@@ -138,6 +138,8 @@ int main(int argc, char* argv[]) {
 	bool found = false;
 	bool foundBoth = false;
 	bool writes = false;
+	
+	std::wcout << "Running For Loop\n";
 
     for (int i = 0; i < sessionCount; ++i) {
         IAudioSessionControl* pSessionControl = NULL;
@@ -207,6 +209,9 @@ int main(int argc, char* argv[]) {
 
             // Further processing with pSessionControl2 (IAudioSessionControl2*)
             pSessionControl2->Release();
+        }
+		else{
+            std::wcout << "Failed finding pSessionControl2\n";
         }
 
         ISimpleAudioVolume* pSimpleAudioVolume = NULL;
