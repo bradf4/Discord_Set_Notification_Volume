@@ -1,4 +1,4 @@
-#include <utility>
+//#include <utility>
 #include <iostream>
 #include <Windows.h>
 #include <mmdeviceapi.h>
@@ -10,6 +10,7 @@
 
 //To compile this it could look like this.
 //g++ -o set_volume_appname.exe set_volume_appname.cpp -lole32 -lmmdevapi
+//cl /EHsc /02 set_volume_appname.cpp /link ole32.lib mmdevapi.lib
 
 // Function to get the process name from its ID
 std::wstring GetProcessName(DWORD processId) {
@@ -56,9 +57,11 @@ bool SetVolume(IAudioSessionControl* pSessionControl, float volume){
 
 int main(int argc, char* argv[]) {
 	if (argc != 4) {
-        std::cerr << "Usage: SetVolumeByPID <Application> <Volume> <BigVolume>" << std::endl;
+        std::wcout << "Usage: SetVolumeByPID <Application> <Volume> <BigVolume>" << "\n";
         return 1;
     }
+
+    std::wcout << "Running\n";
 	
 	std::string appId = argv[1];
 	std::wstring applicationId( appId.begin(), appId.end() );
@@ -68,7 +71,7 @@ int main(int argc, char* argv[]) {
 
     HRESULT hr = CoInitialize(NULL);
     if (FAILED(hr)) {
-        std::cerr << "CoInitialize failed: " << hr << std::endl;
+        std::wcout << "CoInitialize failed: " << hr << "\n";
         return 1;
     }
 
@@ -81,7 +84,7 @@ int main(int argc, char* argv[]) {
         (void**)&pEnumerator
     );
     if (FAILED(hr)) {
-        std::cerr << "CoCreateInstance failed: " << hr << std::endl;
+        std::wcout << "CoCreateInstance failed: " << hr << "\n";
         CoUninitialize();
         return 1;
     }
@@ -89,7 +92,7 @@ int main(int argc, char* argv[]) {
     IMMDevice* pDevice = NULL;
     hr = pEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDevice);
     if (FAILED(hr)) {
-        std::cerr << "GetDefaultAudioEndpoint failed: " << hr << std::endl;
+        std::wcout << "GetDefaultAudioEndpoint failed: " << hr << "\n";
         pEnumerator->Release();
         CoUninitialize();
         return 1;
@@ -103,7 +106,7 @@ int main(int argc, char* argv[]) {
         (void**)&pSessionManager
     );
     if (FAILED(hr)) {
-        std::cerr << "Activate failed: " << hr << std::endl;
+        std::wcout << "Activate failed: " << hr << "\n";
         pDevice->Release();
         pEnumerator->Release();
         CoUninitialize();
@@ -113,7 +116,7 @@ int main(int argc, char* argv[]) {
     IAudioSessionEnumerator* pSessionEnumerator = NULL;
     hr = pSessionManager->GetSessionEnumerator(&pSessionEnumerator);
     if (FAILED(hr)) {
-        std::cerr << "GetSessionEnumerator failed: " << hr << std::endl;
+        std::wcout << "GetSessionEnumerator failed: " << hr << "\n";
         pSessionManager->Release();
         pDevice->Release();
         pEnumerator->Release();
@@ -124,7 +127,7 @@ int main(int argc, char* argv[]) {
     int sessionCount = 0;
     hr = pSessionEnumerator->GetCount(&sessionCount);
     if (FAILED(hr)) {
-        std::cerr << "GetCount failed: " << hr << std::endl;
+        std::wcout << "GetCount failed: " << hr << "\n";
         pSessionEnumerator->Release();
         pSessionManager->Release();
         pDevice->Release();
@@ -139,13 +142,13 @@ int main(int argc, char* argv[]) {
 	bool foundBoth = false;
 	bool writes = false;
 	
-	std::wcout << "Running For Loop\n";
+	std::wcout << "Running For Loop, sessionCount: " << sessionCount << "\n";
 
     for (int i = 0; i < sessionCount; ++i) {
         IAudioSessionControl* pSessionControl = NULL;
         hr = pSessionEnumerator->GetSession(i, &pSessionControl);
         if (FAILED(hr)) {
-            std::cerr << "GetSession failed: " << hr << std::endl;
+            std::wcout << "GetSession failed: " << hr << "\n";
             continue;
         }
 		
@@ -163,7 +166,7 @@ int main(int argc, char* argv[]) {
             LPWSTR sessionDisplayName = NULL;
             hr = pSessionControl2->GetDisplayName(&sessionDisplayName);
             if (SUCCEEDED(hr) && sessionDisplayName && wcslen(sessionDisplayName) > 0) {
-                std::wcout << L"Application: " << sessionDisplayName << std::endl;
+                std::wcout << L"Application: " << sessionDisplayName << "\n";
                 CoTaskMemFree(sessionDisplayName);
             } else {
                 // Get the PID for an application will need for setting volume
@@ -220,7 +223,7 @@ int main(int argc, char* argv[]) {
             (void**)&pSimpleAudioVolume
         );
         if (FAILED(hr)) {
-            std::cerr << "QueryInterface failed: " << hr << std::endl;
+            std::wcout << "QueryInterface failed: " << hr << "\n";
             pSessionControl->Release();
             continue;
         }
@@ -228,7 +231,7 @@ int main(int argc, char* argv[]) {
         float ReadVolume = 0.0f;
         hr = pSimpleAudioVolume->GetMasterVolume(&ReadVolume);
         if (SUCCEEDED(hr)) {
-            std::cout << "Volume: " << ReadVolume << std::endl;
+            std::cout << "Volume: " << ReadVolume << "\n";
         }
 		
 		if(foundBoth){
@@ -266,11 +269,11 @@ int main(int argc, char* argv[]) {
     }
 	
 	if (!found) {
-        std::wcout << "No audio session found for application " << applicationId << std::endl;
+        std::wcout << "No audio session found for application " << applicationId << "\n";
     }
 	
 	if (!writes) {
-        std::wcout << "No audio session writen for application " << applicationId << std::endl;
+        std::wcout << "No audio session writen for application " << applicationId << "\n";
     }
 
     pSessionEnumerator->Release();
