@@ -22,18 +22,18 @@ Running the batch file will run/open discord, and then change the values of both
 
 1. "DiscordVolume.bat"
     - This is what you will run to both open discord and run the set notification volume
-	- You can edit the volumes you want for discord in the batch file using a file editor (notepad.exe, notepad++.exe, vscode, etc)
-	- **You will need to edit this file and add your PATH to discord.exe and update.exe (for discord)**
-	- **Both PATHs can be found in your AppData/Roaming**
-	- If you would like to add this batch file to your taskbar, on Windows 11 you need to save the .bat as a seperate .exe, pin the .exe to taskbar, and then change the pinned shortcut on the taskbar properties and target to the .bat file. You can change the icon of the pinned shortcut to be a discord icon.
+	- You can edit the volumes you want for discord in the batch file using a file editor (notepad, notepad++, vscode, etc)
+	- **You will need to edit this file and add your PATH to the shortcut for discord in your start menu**
+	- **The PATH can be found by typing Discord in the windows search bar**
+	- If you would like to add this batch file to your taskbar, on Windows 11 you need to save the .bat as a separate .exe, pin the .exe to taskbar, and then change the pinned shortcut on the taskbar's properties and target to the .bat file. You can change the icon of the pinned shortcut to be a discord icon.
 
-2. "set_volume_appname.cpp" for *"advanced"* users
+2. "set_discord_volume.cpp" for *"advanced"* users
     - This is the code for the .exe file you can use this to fix any errors you might have or change certain aspects. Go wild.
-	- To compile this needs to have access to the libraries **ole32.lib** and **mmdevapi.lib**
-	- An example of compiling this file is: "g++ -o set_volume_appname.exe set_volume_appname.cpp -lole32 -lmmdevapi" 
+	- To compile this you need to have the Visual Studio Compiler in your PATH, this was built on VS 2022
+	- An example of compiling this file is: "cl /EHsc set_discord_volume.cpp" 
 	- To compile and run the code, you will need the Windows SDK and the Windows Runtime Library. 
 
-3. "set_volume_appname.exe"
+3. "set_discrod_volume.exe"
     - This is the executable called by "DiscordVolume.bat" to set the volumes
 	- This takes three inputs:
 		1. An Application Name (In this case Discord.exe)
@@ -44,4 +44,4 @@ Running the batch file will run/open discord, and then change the values of both
 ## **Assumptions**
 
 1. This was written for Windows 11, ran once on Windows 10 and it worked, it seems that on Windows 10 the percent you set is not absolute it will reference the master volume (this is different for Windows 11). Example: notification volume is set to .10 but your master volume is 50%, discord notifications will be at 5%. (only feel like saying because Windows 11 has a master volume but application volume is absolute.)
-2. The biggest assumption is that the PID for the notifications is higher than the PID for noraml voice. I have no way of discerning, but after thousands of tests (one computer opening discord ~5 times) it seems to follow this. If discord ever updates this assumption I'll look into it.
+2. The biggest assumption is the command line for the discord processes to filter the right one, more information that could help is https://www.reddit.com/r/AutoHotkey/comments/10h5n2u/determining_pids_for_discords_notifications_voice/ where the AHK script was changed to work with Windows (Thanks ChatGPT)

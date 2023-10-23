@@ -10,24 +10,15 @@ set "notifVolume=0.05"
 ::NormalVolume set [0.0-1.0]
 set "normalVolume=0.65"
 
-::path to current version of Discord.exe look at shortcut for where its located
-::set "discPath=PATH\Discord.exe"
-
-::path to update application to run before opening, so no need to update after opening
-::set "discUpdatePath=PATH\AppData\Local\Discord\Update.exe"
-
 ::CHANGE THIS PATH TO YOUR SHORTCUT TO AVOID CHANGING THE PATH FOR DISCORD EVERYTIME THERE IS AN UPDATE
 ::search for discord in bottom right right click open file location and use that shortcut path
-set "testDiscPath=C:\Users\USER\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\Discord.lnk"
-
-::params to run update.exe
-::set "appParam=-processStart %discPath%"
+set "shortcutDiscPath=C:\Users\USER\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\Discord.lnk"
 
 ::wait time in seconds for discord to open before setting volumes
 set "waitTime=25"
 
 ::path to where application was downloaded
-set "executablePath=.\set_volume_appname.exe"
+set "executablePath=.\set_discord_volume.exe"
 
 ::parameters for above application, format is <Application> <NotificationVolume> <NormalVolume>
 ::Volume is a float with values from [0.0 - 1.0] 1.0 = 100% in volume mixer, 0.63 = 63% in volume mixer
@@ -41,7 +32,7 @@ echo Starting...
 ::start "" "%discUpdatePath%" %appParam%
 
 ::update discord test
-start "" "%testDiscPath%%"
+start "" "%shortcutDiscPath%%"
 
 echo Waiting for Discord to open...
 ::wait
